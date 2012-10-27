@@ -1,11 +1,13 @@
 var remove_site_hot_content = function(){
-    $("div.guess-item:not([id^='1087031'])").remove();
+    $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
 }
 
 var refresh_guess_items_and_unread_count = function(){
     var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
     var unread_count = $("div.guess-item").length;
-    douban_home_link.text("首页(" + unread_count + ")");
+    if (unread_count > 0){
+	douban_home_link.text("首页(" + unread_count + ")");
+    }
 }
 
 var put_dislike_button = function() {
