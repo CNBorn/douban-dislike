@@ -11,7 +11,7 @@ var refresh_guess_items_and_unread_count = function(){
 }
 
 var put_dislike_button = function() {
-    $("div.guess-item div.ft").append('<span class="usr-btn fav-btn dislike-btn"><a href>不喜欢</a></span>');
+    $("div.guess-item div.ft:not(:has(span.dislike-btn))").append('<span class="usr-btn fav-btn dislike-btn"><a href>不喜欢</a></span>');
 
     $("div.guess-item").delegate("div.ft span.dislike-btn a", "click", function() {
 
@@ -59,7 +59,7 @@ var put_dislike_button = function() {
 }
 
 var put_dismiss_buttion = function() {
-    $("div.guess-item div.ft").append('<span class="usr-btn dismiss-btn"><a href>隐藏</a></span>');
+    $("div.guess-item div.ft:not(:has(span.dismiss-btn))").append('<span class="usr-btn dismiss-btn"><a href>隐藏</a></span>');
 
     $("div.guess-item").delegate("div.ft span.dismiss-btn a", "click", function() {
 	var guess_item = $(this).parent().parent().parent();
@@ -84,3 +84,13 @@ remove_site_hot_content();
 refresh_guess_items_and_unread_count();
 put_dislike_button();
 put_dismiss_buttion();
+
+//make load_more_guess with douban-dislike logic.
+$("div.guess-more").delegate("a", "click", function() {
+    setTimeout(5000, remove_site_hot_content()); //FIXME hard-code wait for loading.
+    refresh_guess_items_and_unread_count();
+    put_dislike_button();
+    put_dismiss_buttion();
+});
+    
+
