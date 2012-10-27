@@ -17,16 +17,41 @@ var put_dislike_button = function() {
 
 	var guess_item = $(this).parent().parent().parent();
 
-
-
-	guess_item.fadeOut().remove(); //div.guess-item
-
-	var refresh_guess_items_and_unread_count = function(){
-	    var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-	    var unread_count = $("div.guess-item").length;
-	    douban_home_link.text("首页(" + unread_count + ")");
+	var get_user_id = function(){
+	    return guess_item.attr("id").split(":")[0];
 	}
-	refresh_guess_items_and_unread_count();
+	
+	var get_kind_and_id = function(){
+	    return guess_item.attr("unique_id").split(":");
+	}
+
+	var kind = get_kind_and_id()[0];
+	var id = get_kind_and_id()[1];
+	var user_id = get_user_id();
+	console.log(kind, id, user_id);
+
+
+	var save_dislike = function(user_id, kind, id){
+
+	    var refresh_guess_items_and_unread_count = function(){
+		var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
+		var unread_count = $("div.guess-item").length;
+		if (unread_count > 0){
+		    douban_home_link.text("首页(" + unread_count + ")");
+		}
+	    }
+
+	    $.ajax({
+		type: "GET",
+		url: "http://127.0.0.1:5000",
+		data: { kind: kind, id: id, user_id: user_id }
+	    }).done(function(msg) {
+		guess_item.remove();
+		refresh_guess_items_and_unread_count();
+	    });
+	}
+	
+	save_dislike(user_id, kind, id);
 	event.preventDefault();
     });
 
