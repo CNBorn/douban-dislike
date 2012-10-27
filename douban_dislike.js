@@ -43,8 +43,8 @@ var put_dislike_button = function() {
 
 	    $.ajax({
 		type: "GET",
-		url: "http://127.0.0.1:5000",
-		data: { kind: kind, id: id, user_id: user_id }
+		url: "http://50.116.13.151",
+		data: { kind: kind, target_id: id, user_id: user_id }
 	    }).done(function(msg) {
 		guess_item.remove();
 		refresh_guess_items_and_unread_count();
