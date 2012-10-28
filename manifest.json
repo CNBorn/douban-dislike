@@ -1,6 +1,7 @@
 {
   "name": "Douban Dislike",
   "version": "0.1",
+  "manifest_version": 2,
   "description": "Douban Dislike Description",
   "content_scripts": [
     {
