@@ -3,11 +3,46 @@ var remove_site_hot_content = function(){
 }
 
 var refresh_guess_items_and_unread_count = function(){
-    var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-    var unread_count = $("div.guess-item").length;
-    if (unread_count > 0){
-	douban_home_link.text("首页(" + unread_count + ")");
+
+    //since hot_content has been removed, we can get user_id from guess_item;
+    guess_item = $("div.guess-item:first")
+
+    var get_user_id = function(){
+	try{
+	    user_id = guess_item.attr("id").split(":")[0];
+	    localStorage.douban_dislike_user_id = user_id;
+	}
+	catch(err){
+	    user_id = localStorage.douban_dislike_user_id;
+	}
+	return user_id;
     }
+
+    var user_id = get_user_id();
+
+    var refresh_unread_count = function(){
+	var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
+	var unread_count = $("div.guess-item").length;
+	if (unread_count > 0){
+	    douban_home_link.text("首页(" + unread_count + ")");
+	}
+    }
+
+    //filtered out disliked items
+    $.ajax({
+	type: "GET",
+	url: "http://50.116.13.151/dislikes",
+	data: { user_id: user_id }
+    }).done(function(dislikes) {
+	console.log(dislikes);
+	for(dislike_item in dislikes){
+	    var dislike_unique_id = dislike_item[0] + ":" + dislike_item[1];
+	    $("div.guess-item[unique_id=" + dislike_unique_id + "]").remove();
+	    refresh_unread_count();
+	}
+
+    });
+
 }
 
 var put_dislike_button = function() {
