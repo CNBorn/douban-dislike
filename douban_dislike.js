@@ -2,6 +2,10 @@ var remove_site_hot_content = function(){
     $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
 }
 
+var remove_already_liked_content = function(){
+     $("div.guess-item div.ft span.fav-btn a.selected").parent().parent().parent().remove();
+}
+
 var refresh_guess_items_and_unread_count = function(){
 
     //since hot_content has been removed, we can get user_id from guess_item;
@@ -35,10 +39,8 @@ var refresh_guess_items_and_unread_count = function(){
 	data: { user_id: user_id }
     }).done(function(received) {
 	dislikes = received['dislikes'];
-	console.log(dislikes);
 	for(dislike_idx in dislikes){
 	    dislike_unique_id = dislikes[dislike_idx];
-	    console.log("gonna delete " + dislike_unique_id);
 	    $("div.guess-item[unique_id='" + dislike_unique_id + "']").remove();
 	    refresh_unread_count();
 	}
@@ -117,17 +119,28 @@ var load_more_guess = function() {
     $("div.guess-more a").click();
 }
 
+var dislike_refresh_all = function(){
 remove_site_hot_content();
+remove_already_liked_content();
 refresh_guess_items_and_unread_count();
 put_dislike_button();
 put_dismiss_buttion();
+}
+
+dislike_refresh_all();
+
+//add refresh button
+$("div.main h1").append('&nbsp;-&nbsp;<a href="#" class="dislike-refresh-btn">刷新猜</a>');
+$("div.main h1 a.dislike-refresh-btn").click(function(){
+    load_more_guess();
+    setTimeout(3000, dislike_refresh_all());
+    return false;
+});
 
 //make load_more_guess with douban-dislike logic.
-$("div.guess-more").delegate("a", "click", function() {
-    setTimeout(5000, remove_site_hot_content()); //FIXME hard-code wait for loading.
-    refresh_guess_items_and_unread_count();
-    put_dislike_button();
-    put_dismiss_buttion();
-});
-    
-
+//$("div.guess-more").delegate("a", "click", function() {
+//    setTimeout(5000, remove_site_hot_content()); //FIXME hard-code wait for loading.
+//    refresh_guess_items_and_unread_count();
+//    put_dislike_button();
+//    put_dismiss_buttion();
+//});
