@@ -70,8 +70,6 @@ var put_dislike_button = function() {
 	var kind = get_kind_and_id()[0];
 	var id = get_kind_and_id()[1];
 	var user_id = get_user_id();
-	console.log(kind, id, user_id);
-
 
 	var save_dislike = function(user_id, kind, id){
 
@@ -122,10 +120,18 @@ var load_more_guess = function() {
     $("div.guess-more a").click();
 }
 
+var make_like_button_dismiss_guess_item = function() {
+$("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").delegate("a", "click", function() {
+    var guess_item = $(this).parent().parent().parent();
+    setTimeout(3000, guess_item.remove());
+});
+}
+
 var dislike_refresh_all = function(){
 remove_site_hot_content();
 remove_already_liked_content();
 refresh_guess_items_and_unread_count();
+make_like_button_dismiss_guess_item();
 put_dislike_button();
 put_dismiss_buttion();
 }
