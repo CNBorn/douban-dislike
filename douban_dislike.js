@@ -33,11 +33,13 @@ var refresh_guess_items_and_unread_count = function(){
 	type: "GET",
 	url: "http://50.116.13.151/dislikes",
 	data: { user_id: user_id }
-    }).done(function(dislikes) {
+    }).done(function(received) {
+	dislikes = received['dislikes'];
 	console.log(dislikes);
-	for(dislike_item in dislikes){
-	    var dislike_unique_id = dislike_item[0] + ":" + dislike_item[1];
-	    $("div.guess-item[unique_id=" + dislike_unique_id + "]").remove();
+	for(dislike_idx in dislikes){
+	    dislike_unique_id = dislikes[dislike_idx];
+	    console.log("gonna delete " + dislike_unique_id);
+	    $("div.guess-item[unique_id='" + dislike_unique_id + "']").remove();
 	    refresh_unread_count();
 	}
 
