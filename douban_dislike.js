@@ -130,8 +130,10 @@ var load_more_guess = function() {
 
 var make_like_button_dismiss_guess_item = function() {
 $("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").delegate("a", "click", function() {
-    var guess_item = $(this).parent().parent().parent();
-    setTimeout(guess_item.remove(), 3000);
+    var guess_item_dismiss = function(){
+	$(this).parent().parent().parent().remove();
+    }
+    setTimeout(guess_item_dismiss, refresh_interval * 5);
 });
 }
 
@@ -148,7 +150,6 @@ dislike_refresh_all();
 
 //make load_more_guess with douban-dislike logic.
 $("div.guess-more").delegate("a", "click", function() {
-    dislike_refresh_all();
     setTimeout(dislike_refresh_all, refresh_interval);
-    setInterval(dislike_refresh_all, refresh_interval); 
+    setTimeout(dislike_refresh_all, refresh_interval * 5); //refresh in case the request failed.
 });
