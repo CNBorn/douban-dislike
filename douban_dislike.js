@@ -141,7 +141,7 @@ remove_already_liked_content();
 refresh_guess_items_and_unread_count();
 make_like_button_dismiss_guess_item();
 put_dislike_button();
-put_dismiss_buttion();
+//put_dismiss_buttion();
 }
 
 dislike_refresh_all();
