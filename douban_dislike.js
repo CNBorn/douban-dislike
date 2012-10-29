@@ -43,7 +43,7 @@ var refresh_guess_items_and_unread_count = function(){
     //filtered out disliked items
     $.ajax({
 	type: "GET",
-	url: "http://50.116.13.151/dislikes",
+	url: "http://50.116.13.151/douban_dislikes/dislikes",
 	data: { user_id: user_id }
     }).done(function(received) {
 	dislikes = received['dislikes'];
@@ -91,7 +91,7 @@ var put_dislike_button = function() {
 
 	    $.ajax({
 		type: "GET",
-		url: "http://50.116.13.151",
+		url: "http://50.116.13.151/douban_dislikes",
 		data: { kind: kind, target_id: id, user_id: user_id }
 	    }).done(function(msg) {
 		guess_item.remove();
