@@ -1,3 +1,5 @@
+var refresh_interval = 850;
+
 var remove_site_hot_content = function(){
     $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
 }
@@ -26,6 +28,9 @@ var refresh_guess_items_and_unread_count = function(){
     }
 
     var user_id = get_user_id();
+    if(!user_id){
+	return false;
+    }
 
     var refresh_unread_count = function(){
 	var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
@@ -70,6 +75,9 @@ var put_dislike_button = function() {
 	var kind = get_kind_and_id()[0];
 	var id = get_kind_and_id()[1];
 	var user_id = get_user_id();
+	if(!user_id){
+	    return false;
+	}
 
 	var save_dislike = function(user_id, kind, id){
 
@@ -139,18 +147,17 @@ put_dismiss_buttion();
 dislike_refresh_all();
 
 //add refresh button
-$("div.main h1").append('&nbsp;-&nbsp;<a href="#" class="dislike-refresh-btn">刷新猜</a>');
-$("div.back-to-top").append('<span><a href="#" class="dislike-refresh-btn">刷新猜</a></span>');
-$("a.dislike-refresh-btn").click(function(){
+//$("div.main h1").append('&nbsp;-&nbsp;<a href="#" class="dislike-refresh-btn">刷新猜</a>');
+//$("div.back-to-top").append('<span><a href="#" class="dislike-refresh-btn">刷新猜</a></span>');
+/*$("a.dislike-refresh-btn").click(function(){
     load_more_guess();
-    setTimeout(3000, dislike_refresh_all());
+    setTimeout(dislike_refresh_all, refresh_interval);
     event.preventDefault();
-});
+});*/
 
 //make load_more_guess with douban-dislike logic.
-//$("div.guess-more").delegate("a", "click", function() {
-//    setTimeout(5000, remove_site_hot_content()); //FIXME hard-code wait for loading.
-//    refresh_guess_items_and_unread_count();
-//    put_dislike_button();
-//    put_dismiss_buttion();
-//});
+$("div.guess-more").delegate("a", "click", function() {
+    dislike_refresh_all();
+    setTimeout(dislike_refresh_all, refresh_interval);
+    setInterval(dislike_refresh_all, refresh_interval); 
+});
