@@ -131,7 +131,7 @@ var load_more_guess = function() {
 var make_like_button_dismiss_guess_item = function() {
 $("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").delegate("a", "click", function() {
     var guess_item = $(this).parent().parent().parent();
-    setTimeout(3000, guess_item.remove());
+    setTimeout(guess_item.remove(), 3000);
 });
 }
 
@@ -145,15 +145,6 @@ put_dismiss_buttion();
 }
 
 dislike_refresh_all();
-
-//add refresh button
-//$("div.main h1").append('&nbsp;-&nbsp;<a href="#" class="dislike-refresh-btn">刷新猜</a>');
-//$("div.back-to-top").append('<span><a href="#" class="dislike-refresh-btn">刷新猜</a></span>');
-/*$("a.dislike-refresh-btn").click(function(){
-    load_more_guess();
-    setTimeout(dislike_refresh_all, refresh_interval);
-    event.preventDefault();
-});*/
 
 //make load_more_guess with douban-dislike logic.
 $("div.guess-more").delegate("a", "click", function() {
