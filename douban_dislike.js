@@ -140,10 +140,11 @@ dislike_refresh_all();
 
 //add refresh button
 $("div.main h1").append('&nbsp;-&nbsp;<a href="#" class="dislike-refresh-btn">刷新猜</a>');
-$("div.main h1 a.dislike-refresh-btn").click(function(){
+$("div.back-to-top").append('<span><a href="#" class="dislike-refresh-btn">刷新猜</a></span>');
+$("a.dislike-refresh-btn").click(function(){
     load_more_guess();
     setTimeout(3000, dislike_refresh_all());
-    return false;
+    event.preventDefault();
 });
 
 //make load_more_guess with douban-dislike logic.
