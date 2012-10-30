@@ -8,7 +8,8 @@ var remove_already_liked_content = function(){
     $("div.guess-item div.ft span.fav-btn a.selected").parent().parent().parent().remove();
     //book, movie, music
     $("div.guess-item div.ft span.subject-btn a.selected").parent().parent().parent().remove();
-
+    //online
+    $("div.guess-item div.ft span.online-event-btn a.selected").parent().parent().parent().remove();
 }
 
 var refresh_guess_items_and_unread_count = function(){
