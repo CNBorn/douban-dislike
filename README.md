@@ -7,4 +7,4 @@
 
 ## 截屏
 
-![豆瓣首页进化](screenshot.jpg "豆瓣首页进化")
+![豆瓣首页进化](https://raw.github.com/CNBorn/douban-dislike/master/screenshot.jpg "豆瓣首页进化")
