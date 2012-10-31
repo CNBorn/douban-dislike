@@ -1,5 +1,9 @@
 var refresh_interval = 850;
 
+var remove_boutique = function(){
+    $("div.boutique").remove();
+}
+
 var remove_site_hot_content = function(){
     $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
 }
@@ -139,6 +143,7 @@ $("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").
 }
 
 var dislike_refresh_all = function(){
+remove_boutique();
 remove_site_hot_content();
 remove_already_liked_content();
 refresh_guess_items_and_unread_count();
