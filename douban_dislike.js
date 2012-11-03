@@ -130,7 +130,7 @@ var put_dismiss_buttion = function() {
 }
 
 var put_expand_note_button = function() {
-    $("div.guess-item[unique_id^=1015] div.source").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
+    $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
 
     $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
 	var guess_item = $(this).parent().parent().parent().parent().parent();
