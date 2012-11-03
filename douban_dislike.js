@@ -129,6 +129,29 @@ var put_dismiss_buttion = function() {
 
 }
 
+var put_expand_note_button = function() {
+    $("div.guess-item[unique_id^=1015] div.source").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
+
+    $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
+	var guess_item = $(this).parent().parent().parent().parent().parent();
+	var guess_item_note_id = $(guess_item).attr("unique_id").split(":")[1];
+
+	$.ajax({
+	    type: "GET",
+	    url: "http://www.douban.com/note/" + guess_item_note_id + "/"
+	}).done(function(received_html) {
+	    var note_context = $("div.note:last", received_html);
+	    $("div.content div.desc", guess_item).html(note_context);
+	    $("div.source span.loading", guess_item).remove();
+	});
+
+	$(this).parent().html('<span class="loading">加载中……</span>');
+	event.preventDefault();
+    });
+    
+}
+
+
 var load_more_guess = function() {
     $("div.guess-more a").click();
 }
@@ -150,6 +173,7 @@ refresh_guess_items_and_unread_count();
 make_like_button_dismiss_guess_item();
 put_dislike_button();
 //put_dismiss_buttion();
+put_expand_note_button();
 }
 
 dislike_refresh_all();
