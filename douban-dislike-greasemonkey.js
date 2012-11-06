@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name                Douban-Dislike
-// @namespace	        http://cnborn.net
-// @description	        page
+// @namespace	        http://cnborn.net/blog/2012/10/douban-dislike_chrome_extension/
+// @description	        Douban Front Page Enhanced.
 // @require             http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js
 // @include		http://www.douban.com/
 // ==/UserScript==
@@ -22,7 +22,6 @@ if (typeof(jQuery) == "undefined") {
 }
 
 function douban_dislike($) {
-
 
 //Copy code begins
 
@@ -175,15 +174,15 @@ var put_expand_note_button = function() {
 	    method: "GET",
 	    url: "http://www.douban.com/note/" + guess_item_note_id + "/",
 	    onload: function(received_html) {
-	    var note_context = $("div.note:last", received_html);
+	    var note_context = $("div.note:last", received_html.responseText);
 	    $("div.content div.desc", guess_item).html(note_context);
-	    $("div.source span.loading", guess_item).remove();
+	    //$("div.source span.loading", guess_item).remove();
 	    }
 	});
 
 	$(this).parent().html('<span class="loading">加载中……</span>');
 	event.preventDefault();
-	return false;
+	//return false;
     });
     
 }
@@ -221,15 +220,6 @@ $("div.guess-more").delegate("a", "click", function() {
     setTimeout(dislike_refresh_all, refresh_interval * 5); //refresh in case the request failed.
 });
 
-
 //COPY code ends
 
 }
-// ==UserScript==
-// @name        douban-dislike2
-// @namespace   douban
-// @description douban-dislike
-// @include     http://www.douban.com/
-// @version     1
-// ==/UserScript==
-
