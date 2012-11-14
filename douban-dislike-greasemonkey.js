@@ -173,16 +173,20 @@ var put_expand_note_button = function() {
 	GM_xmlhttpRequest({
 	    method: "GET",
 	    url: "http://www.douban.com/note/" + guess_item_note_id + "/",
+	    headers: {
+		"Content-Type": "text/html"
+	    },
 	    onload: function(received_html) {
-	    var note_context = $("div.note:last", received_html.responseText);
-	    $("div.content div.desc", guess_item).html(note_context);
-	    //$("div.source span.loading", guess_item).remove();
+                var note_context = $("div.note:last", received_html.responseText);
+                $("div.content div.desc", guess_item).html(note_context);
+                $("div.source span.loading", guess_item).remove();
+
 	    }
 	});
 
 	$(this).parent().html('<span class="loading">加载中……</span>');
-	event.preventDefault();
-	//return false;
+	return false;
+
     });
     
 }
