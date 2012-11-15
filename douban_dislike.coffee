@@ -11,6 +11,12 @@ remove_already_liked_content = ->
   $("div.guess-item:has(div.ft span.subject-btn a.selected)").remove()
   $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove()
 
+refresh_unread_count = ->
+  douban_home_link = $("div.site-nav-items ul li:eq(0) a")
+  unread_count = $("div.guess-item").length
+  if unread_count > 0
+    douban_home_link.text("豆瓣(#{unread_count})")
+
 refresh_guess_items_and_unread_count = ->
   guess_item = $("div.guess-item:first")
   get_user_id = ->
@@ -19,12 +25,6 @@ refresh_guess_items_and_unread_count = ->
 
   user_id = get_user_id()
   if not user_id then return false
-
-  refresh_unread_count = ->
-    douban_home_link = $("div.site-nav-items ul li:eq(0) a")
-    unread_count = $("div.guess-item").length
-    if unread_count > 0
-      douban_home_link.text("豆瓣(#{unread_count})")
 
   $.ajax(
     type: "GET"
@@ -52,11 +52,6 @@ put_dislike_button = ->
     if not user_id then return false
 
     save_dislike = (user_id, kind, id) ->
-      refresh_guess_items_and_unread_count = ->
-        douban_home_link = $("div.site-nav-items ul li:eq(0) a")
-        unread_count = $("div.guess-item").length
-        if unread_count > 0
-          douban_home_link.text("首页(#{unread_count})")
           
     $.ajax(
       type: "GET",
@@ -67,7 +62,7 @@ put_dislike_button = ->
         user_id: user_id
     ).done (msg) =>
       guess_item.remove()
-      refresh_guess_item_and_unread_count()
+      refresh_unread_count()
 
     save_dislike(user_id, kind, id)
     event.preventDefault()
