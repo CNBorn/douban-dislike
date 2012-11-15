@@ -35,7 +35,7 @@ refresh_guess_items_and_unread_count = ->
     dislikes = received['dislikes']
     for dislike in dislikes
       $("div.guess-item[unique_id=#{dislike}]").remove()
-      refresh_unread_count()
+    refresh_unread_count()
 
   
 put_dislike_button = ->
@@ -72,3 +72,39 @@ put_dislike_button = ->
 
   save_dislike(user_id, kind, id)
   event.preventDefault()
+
+put_expend_note_button = ->
+  $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>')
+
+  $("div.guess-item[unique_id^=1015] div.source").delegate "span.expand-note-btn a", "click", () ->
+    guess_item = $(this).parent().parnet().parent().parent().parnet()
+    guess_item_note_id = $(guess_item).attr("unique_id").split(":")[1]
+
+    $.ajax(
+      type: "GET"
+      url: "http://www.douabn.com/note/#{guess_item_note_id}/"
+    ).done (received_html) ->
+      note_context = $("div.note:last", received_html)
+      $("div.content div.desc", guess_item).html(note_context)
+      $("div.source span.loading", guess_item).remove()
+
+    $(this).parent().html('<span class="loading">加载中……</span>')
+    event.preventDefault()
+
+
+load_more_guess = ->
+  $("div.guess-more a").click()
+
+dislike_refresh_all = ->
+  remove_boutique()
+  remove_site_hot_content()
+  remove_already_liked_content()
+  refresh_guess_items_and_unread_count()
+  put_dislike_button()
+  put_expand_note_button()
+
+dislike_refresh_all()
+
+$("div.guess-more").delegate "a", "click", () ->
+  setTimeout(dislike_refresh_all, refresh_interval)
+  setTimeout(dislike_refresh_all, refresh_interval * 5)
