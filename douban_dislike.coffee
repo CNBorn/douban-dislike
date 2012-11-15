@@ -47,8 +47,7 @@ put_dislike_button = ->
       guess_item.attr("id").split(":")[0]
     get_kind_and_id = ->
       guess_item.attr("unique_id").split(":")
-    kind = get_kind_and_id()[0]
-    id = get_kind_and_id()[1]
+    [kind, id] = get_kind_and_id()
     user_id = get_user_id()
     if not user_id then return false
 
@@ -70,15 +69,15 @@ put_dislike_button = ->
       guess_item.remove()
       refresh_guess_item_and_unread_count()
 
-  save_dislike(user_id, kind, id)
-  event.preventDefault()
+    save_dislike(user_id, kind, id)
+    event.preventDefault()
 
 put_expend_note_button = ->
   $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>')
 
   $("div.guess-item[unique_id^=1015] div.source").delegate "span.expand-note-btn a", "click", () ->
     guess_item = $(this).parent().parnet().parent().parent().parnet()
-    guess_item_note_id = $(guess_item).attr("unique_id").split(":")[1]
+    [guess_item_note_kind, guess_item_note_id] = $(guess_item).attr("unique_id").split(":")
 
     $.ajax(
       type: "GET"
@@ -90,10 +89,6 @@ put_expend_note_button = ->
 
     $(this).parent().html('<span class="loading">加载中……</span>')
     event.preventDefault()
-
-
-load_more_guess = ->
-  $("div.guess-more a").click()
 
 dislike_refresh_all = ->
   remove_boutique()
