@@ -4,12 +4,12 @@ remove_boutique = ->
   $("div.boutique").remove()
 
 remove_site_hot_content = ->
-  $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove()
+  $("div.guess-item:has(div.source:contains('热点'))").remove()
 
 remove_already_liked_content = ->
-  $("div.guess-item div.ft span.fav-btn a.selected").parent().parent().parent().remove()
-  $("div.guess-item div.ft span.subject-btn a.selected").parent().parent().parent().remove()
-  $("div.guess-item div.ft span.online-event-btn a.selected").parent().parent().parent().remove()
+  $("div.guess-item:has(div.ft span.fav-btn a.selected)").remove()
+  $("div.guess-item:has(div.ft span.subject-btn a.selected)").remove()
+  $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove()
 
 refresh_guess_items_and_unread_count = ->
   guess_item = $("div.guess-item:first")
