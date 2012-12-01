@@ -72,11 +72,11 @@ put_expand_note_button = ->
 
   $("div.guess-item[unique_id^=1015] div.source").delegate "span.expand-note-btn a", "click", () ->
     guess_item = $(this).parent().parent().parent().parent().parent()
-    [guess_item_note_kind, guess_item_note_id] = $(guess_item).attr("unique_id").split(":")
+    [guess_item_note_kind, guess_item_note_id] = $(guess_item[0]).attr("unique_id").split(":")
 
     $.ajax(
       type: "GET"
-      url: "http://www.douabn.com/note/#{guess_item_note_id}/"
+      url: "http://www.douban.com/note/#{guess_item_note_id}/"
     ).done (received_html) ->
       note_context = $("div.note:last", received_html)
       $("div.content div.desc", guess_item).html(note_context)
