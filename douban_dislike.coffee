@@ -34,7 +34,7 @@ refresh_guess_items_and_unread_count = ->
   ).done (received) =>
     dislikes = received['dislikes']
     for dislike in dislikes
-      $("div.guess-item[unique_id=#{dislike}]").remove()
+      $("div.guess-item[unique_id='#{dislike}']").remove()
     refresh_unread_count()
 
   
@@ -42,7 +42,7 @@ put_dislike_button = ->
   $("div.guess-item div.ft:not(:has(span.dislike-btn))").append('<span class="usr-btn fav-btn dislike-btn"><a href>不喜欢</a></span>')
 
   $("div.guess-item").delegate "div.ft span.dislike-btn a", "click", (evt) ->
-    guess_item = $(this).parent().parent().parnet()
+    guess_item = $(this).parent().parent().parent()
     get_user_id = ->
       guess_item.attr("id").split(":")[0]
     get_kind_and_id = ->
@@ -67,11 +67,11 @@ put_dislike_button = ->
     save_dislike(user_id, kind, id)
     event.preventDefault()
 
-put_expend_note_button = ->
+put_expand_note_button = ->
   $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>')
 
   $("div.guess-item[unique_id^=1015] div.source").delegate "span.expand-note-btn a", "click", () ->
-    guess_item = $(this).parent().parnet().parent().parent().parnet()
+    guess_item = $(this).parent().parent().parent().parent().parent()
     [guess_item_note_kind, guess_item_note_id] = $(guess_item).attr("unique_id").split(":")
 
     $.ajax(

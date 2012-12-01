@@ -7,7 +7,7 @@
     {
       "matches": ["http://www.douban.com/"],
       "run_at": "document_end",
-      "js": ["jquery-1.6.1.min.js", "douban_dislike.js"]
+      "js": ["jquery.min.js", "douban_dislike.js"]
     }],
   "icons": {
     "128": "appicon_128.png"
