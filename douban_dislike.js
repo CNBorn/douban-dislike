@@ -1,185 +1,124 @@
-var refresh_interval = 850;
+(function() {
+  var dislike_refresh_all, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_unread_count, remove_already_liked_content, remove_boutique, remove_site_hot_content;
 
-var remove_boutique = function(){
-    $("div.boutique").remove();
-}
+  refresh_interval = 850;
 
-var remove_site_hot_content = function(){
-    $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
-}
+  remove_boutique = function() {
+    return $("div.boutique").remove();
+  };
 
-var remove_already_liked_content = function(){
-    $("div.guess-item div.ft span.fav-btn a.selected").parent().parent().parent().remove();
-    //book, movie, music
-    $("div.guess-item div.ft span.subject-btn a.selected").parent().parent().parent().remove();
-    //online
-    $("div.guess-item div.ft span.online-event-btn a.selected").parent().parent().parent().remove();
-}
+  remove_site_hot_content = function() {
+    return $("div.guess-item:has(div.source:contains('热点'))").remove();
+  };
 
-var refresh_guess_items_and_unread_count = function(){
+  remove_already_liked_content = function() {
+    $("div.guess-item:has(div.ft span.fav-btn a.selected)").remove();
+    $("div.guess-item:has(div.ft span.subject-btn a.selected)").remove();
+    return $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove();
+  };
 
-    //since hot_content has been removed, we can get user_id from guess_item;
-    guess_item = $("div.guess-item:first")
+  refresh_unread_count = function() {
+    var douban_home_link, unread_count;
+    douban_home_link = $("div.site-nav-items ul li:eq(0) a");
+    unread_count = $("div.guess-item").length;
+    if (unread_count > 0) return douban_home_link.text("豆瓣(" + unread_count + ")");
+  };
 
-    var get_user_id = function(){
-	try{
-	    user_id = guess_item.attr("id").split(":")[0];
-	    localStorage.douban_dislike_user_id = user_id;
-	}
-	catch(err){
-	    user_id = localStorage.douban_dislike_user_id;
-	}
-	return user_id;
-    }
-
-    var user_id = get_user_id();
-    if(!user_id){
-	return false;
-    }
-
-    var refresh_unread_count = function(){
-	var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-	var unread_count = $("div.guess-item").length;
-	if (unread_count > 0){
-	    douban_home_link.text("首页(" + unread_count + ")");
-	}
-    }
-
-    //filtered out disliked items
-    $.ajax({
-	type: "GET",
-	url: "http://50.116.13.151/douban_dislikes/dislikes",
-	data: { user_id: user_id }
+  refresh_guess_items_and_unread_count = function() {
+    var get_user_id, guess_item, user_id,
+      _this = this;
+    guess_item = $("div.guess-item:first");
+    get_user_id = function() {
+      var user_id;
+      user_id = guess_item.attr("id").split(":")[0];
+      return localStorage.douban_dislike_user_id = user_id;
+    };
+    user_id = get_user_id();
+    if (!user_id) return false;
+    return $.ajax({
+      type: "GET",
+      url: "http://50.116.13.151/douban_dislikes/dislikes",
+      data: {
+        user_id: user_id
+      }
     }).done(function(received) {
-	dislikes = received['dislikes'];
-	for(dislike_idx in dislikes){
-	    dislike_unique_id = dislikes[dislike_idx];
-	    $("div.guess-item[unique_id='" + dislike_unique_id + "']").remove();
-	    refresh_unread_count();
-	}
-
+      var dislike, dislikes, _i, _len;
+      dislikes = received['dislikes'];
+      for (_i = 0, _len = dislikes.length; _i < _len; _i++) {
+        dislike = dislikes[_i];
+        $("div.guess-item[unique_id='" + dislike + "']").remove();
+      }
+      return refresh_unread_count();
     });
+  };
 
-}
-
-var put_dislike_button = function() {
+  put_dislike_button = function() {
     $("div.guess-item div.ft:not(:has(span.dislike-btn))").append('<span class="usr-btn fav-btn dislike-btn"><a href>不喜欢</a></span>');
-
-    $("div.guess-item").delegate("div.ft span.dislike-btn a", "click", function() {
-
-	var guess_item = $(this).parent().parent().parent();
-
-	var get_user_id = function(){
-	    return guess_item.attr("id").split(":")[0];
-	}
-	
-	var get_kind_and_id = function(){
-	    return guess_item.attr("unique_id").split(":");
-	}
-
-	var kind = get_kind_and_id()[0];
-	var id = get_kind_and_id()[1];
-	var user_id = get_user_id();
-	if(!user_id){
-	    return false;
-	}
-
-	var save_dislike = function(user_id, kind, id){
-
-	    var refresh_guess_items_and_unread_count = function(){
-		var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-		var unread_count = $("div.guess-item").length;
-		if (unread_count > 0){
-		    douban_home_link.text("首页(" + unread_count + ")");
-		}
-	    }
-
-	    $.ajax({
-		type: "GET",
-		url: "http://50.116.13.151/douban_dislikes",
-		data: { kind: kind, target_id: id, user_id: user_id }
-	    }).done(function(msg) {
-		guess_item.remove();
-		refresh_guess_items_and_unread_count();
-	    });
-	}
-	
-	save_dislike(user_id, kind, id);
-	event.preventDefault();
+    return $("div.guess-item").delegate("div.ft span.dislike-btn a", "click", function(evt) {
+      var get_kind_and_id, get_user_id, guess_item, id, kind, save_dislike, user_id, _ref,
+        _this = this;
+      guess_item = $(this).parent().parent().parent();
+      get_user_id = function() {
+        return guess_item.attr("id").split(":")[0];
+      };
+      get_kind_and_id = function() {
+        return guess_item.attr("unique_id").split(":");
+      };
+      _ref = get_kind_and_id(), kind = _ref[0], id = _ref[1];
+      user_id = get_user_id();
+      if (!user_id) return false;
+      save_dislike = function(user_id, kind, id) {};
+      $.ajax({
+        type: "GET",
+        url: "http://50.116.13.151/douban_dislikes",
+        data: {
+          kind: kind,
+          target_id: id,
+          user_id: user_id
+        }
+      }).done(function(msg) {
+        guess_item.remove();
+        return refresh_unread_count();
+      });
+      save_dislike(user_id, kind, id);
+      return event.preventDefault();
     });
+  };
 
-
-}
-
-var put_dismiss_buttion = function() {
-    $("div.guess-item div.ft:not(:has(span.dismiss-btn))").append('<span class="usr-btn dismiss-btn"><a href>隐藏</a></span>');
-
-    $("div.guess-item").delegate("div.ft span.dismiss-btn a", "click", function() {
-	var guess_item = $(this).parent().parent().parent();
-	guess_item.fadeOut().remove(); //div.guess-item
-
-	var refresh_guess_items_and_unread_count = function(){
-	    var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-	    var unread_count = $("div.guess-item").length;
-	    douban_home_link.text("首页(" + unread_count + ")");
-	}
-	refresh_guess_items_and_unread_count();
-	event.preventDefault();
-    });
-
-}
-
-var put_expand_note_button = function() {
+  put_expand_note_button = function() {
     $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
-
-    $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
-	var guess_item = $(this).parent().parent().parent().parent().parent();
-	var guess_item_note_id = $(guess_item).attr("unique_id").split(":")[1];
-
-	$.ajax({
-	    type: "GET",
-	    url: "http://www.douban.com/note/" + guess_item_note_id + "/"
-	}).done(function(received_html) {
-	    var note_context = $("div.note:last", received_html);
-	    $("div.content div.desc", guess_item).html(note_context);
-	    $("div.source span.loading", guess_item).remove();
-	});
-
-	$(this).parent().html('<span class="loading">加载中……</span>');
-	event.preventDefault();
+    return $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
+      var guess_item, guess_item_note_id, guess_item_note_kind, _ref;
+      guess_item = $(this).parent().parent().parent().parent().parent();
+      _ref = $(guess_item[0]).attr("unique_id").split(":"), guess_item_note_kind = _ref[0], guess_item_note_id = _ref[1];
+      $.ajax({
+        type: "GET",
+        url: "http://www.douban.com/note/" + guess_item_note_id + "/"
+      }).done(function(received_html) {
+        var note_context;
+        note_context = $("div.note:last", received_html);
+        $("div.content div.desc", guess_item).html(note_context);
+        return $("div.source span.loading", guess_item).remove();
+      });
+      $(this).parent().html('<span class="loading">加载中……</span>');
+      return event.preventDefault();
     });
-    
-}
+  };
 
+  dislike_refresh_all = function() {
+    remove_boutique();
+    remove_site_hot_content();
+    remove_already_liked_content();
+    refresh_guess_items_and_unread_count();
+    put_dislike_button();
+    return put_expand_note_button();
+  };
 
-var load_more_guess = function() {
-    $("div.guess-more a").click();
-}
+  dislike_refresh_all();
 
-var make_like_button_dismiss_guess_item = function() {
-$("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").delegate("a", "click", function() {
-    var guess_item_dismiss = function(){
-	$(this).parent().parent().parent().remove();
-    }
-    setTimeout(guess_item_dismiss, refresh_interval * 5);
-});
-}
-
-var dislike_refresh_all = function(){
-remove_boutique();
-remove_site_hot_content();
-remove_already_liked_content();
-refresh_guess_items_and_unread_count();
-make_like_button_dismiss_guess_item();
-put_dislike_button();
-//put_dismiss_buttion();
-put_expand_note_button();
-}
-
-dislike_refresh_all();
-
-//make load_more_guess with douban-dislike logic.
-$("div.guess-more").delegate("a", "click", function() {
+  $("div.guess-more").delegate("a", "click", function() {
     setTimeout(dislike_refresh_all, refresh_interval);
-    setTimeout(dislike_refresh_all, refresh_interval * 5); //refresh in case the request failed.
-});
+    return setTimeout(dislike_refresh_all, refresh_interval * 5);
+  });
+
+}).call(this);
