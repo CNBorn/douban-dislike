@@ -5,7 +5,8 @@
 
   remove_boutique = function() {
     $("div.boutique").remove();
-    return $("a[title=豆瓣手机客户端]").remove();
+    $("a[title=豆瓣手机客户端]").remove();
+    return $("a[title=豆瓣小组手机客户端]").remove();
   };
 
   remove_site_hot_content = function() {
