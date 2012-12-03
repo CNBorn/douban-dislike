@@ -4,7 +4,8 @@
   refresh_interval = 850;
 
   remove_boutique = function() {
-    return $("div.boutique").remove();
+    $("div.boutique").remove();
+    return $("a[title=豆瓣手机客户端]").remove();
   };
 
   remove_site_hot_content = function() {
