@@ -3,6 +3,7 @@ refresh_interval = 850
 remove_boutique = ->
   $("div.boutique").remove()
   $("a[title=豆瓣手机客户端]").remove()
+  $("a[title=豆瓣小组手机客户端]").remove()
 
 remove_site_hot_content = ->
   $("div.guess-item:has(div.source:contains('热点'))").remove()

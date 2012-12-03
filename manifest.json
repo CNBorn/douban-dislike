@@ -8,6 +8,11 @@
       "matches": ["http://www.douban.com/"],
       "run_at": "document_end",
       "js": ["jquery.min.js", "douban_dislike.js"]
+    },
+    {
+      "matches": ["http://www.douban.com/update/"],
+      "run_at": "document_end",
+      "js": ["jquery.min.js", "douban_clear.js"]
     }],
   "icons": {
     "128": "appicon_128.png"
