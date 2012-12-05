@@ -5,8 +5,8 @@
 
   remove_boutique = function() {
     $("div.boutique").remove();
-    $("a[title=豆瓣手机客户端]").remove();
-    return $("a[title=豆瓣小组手机客户端]").remove();
+    $("div#dale_update_top_right").remove();
+    return $("div#dale_homepage_login_top_right").remove();
   };
 
   remove_site_hot_content = function() {
