@@ -3,7 +3,8 @@
 
   remove_boutique = function() {
     $("div.boutique").remove();
-    return $("a[title=豆瓣小组手机客户端]").remove();
+    $("div#dale_update_top_right").remove();
+    $("div#dale_homepage_login_top_right").remove();
   };
 
   remove_boutique();
