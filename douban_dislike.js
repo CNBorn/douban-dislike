@@ -89,13 +89,16 @@
 
   put_expand_note_button = function() {
     $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
-    return $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
+    return $("div.guess-item[unique_id^=1015] div.source span.expand-note-btn a").click(function() {
       var guess_item, guess_item_note_id, guess_item_note_kind, _ref;
-      guess_item = $(this).parent().parent().parent().parent().parent();
+      guess_item = $(this).parent().parent().parent().parent();
       _ref = $(guess_item[0]).attr("unique_id").split(":"), guess_item_note_kind = _ref[0], guess_item_note_id = _ref[1];
       $.ajax({
         type: "GET",
-        url: "http://www.douban.com/note/" + guess_item_note_id + "/"
+        url: "http://www.douban.com/note/" + guess_item_note_id + "/",
+        headers: {
+          "Content-Type": "text/html"
+        }
       }).done(function(received_html) {
         var note_context;
         note_context = $("div.note:last", received_html);
