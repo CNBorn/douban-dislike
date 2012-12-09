@@ -10,7 +10,7 @@
 // Needed for GreaseKit since it doesn't support the @require property.
 if (typeof(jQuery) == "undefined") {
     var script = document.createElement("script");
-    script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js";
+    script.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js";
     script.type = "text/javascript";
     document.getElementsByTagName("head")[0].appendChild(script);
     script.addEventListener("load", function() {
@@ -34,7 +34,8 @@ var remove_boutique = function(){
 }
 
 var remove_site_hot_content = function(){
-    $("div.guess-item div.source:contains('热点')").parent().parent().parent().remove();
+    return $("div.guess-item:has(div.source:contains('热点'))").remove();
+
 }
 
 var remove_already_liked_content = function(){
@@ -211,7 +212,7 @@ remove_boutique();
 remove_site_hot_content();
 remove_already_liked_content();
 refresh_guess_items_and_unread_count();
-make_like_button_dismiss_guess_item();
+//make_like_button_dismiss_guess_item();
 put_dislike_button();
 //put_dismiss_buttion();
 put_expand_note_button();
