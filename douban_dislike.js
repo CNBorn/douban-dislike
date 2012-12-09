@@ -16,7 +16,8 @@
   remove_already_liked_content = function() {
     $("div.guess-item:has(div.ft span.fav-btn a.selected)").remove();
     $("div.guess-item:has(div.ft span.subject-btn a.selected)").remove();
-    return $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove();
+    $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove();
+    return $("div.guess-item:has(div.ft span.event-btn a.selected)").remove();
   };
 
   refresh_unread_count = function() {
