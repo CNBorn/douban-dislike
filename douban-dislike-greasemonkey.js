@@ -147,30 +147,12 @@ var put_dislike_button = function() {
 
 }
 
-var put_dismiss_buttion = function() {
-    $("div.guess-item div.ft:not(:has(span.dismiss-btn))").append('<span class="usr-btn dismiss-btn"><a href>隐藏</a></span>');
-
-    $("div.guess-item").delegate("div.ft span.dismiss-btn a", "click", function() {
-	var guess_item = $(this).parent().parent().parent();
-	guess_item.fadeOut().remove(); //div.guess-item
-
-	var refresh_guess_items_and_unread_count = function(){
-	    var douban_home_link = $("div.site-nav-items ul li:eq(0) a");
-	    var unread_count = $("div.guess-item").length;
-	    douban_home_link.text("首页(" + unread_count + ")");
-	}
-	refresh_guess_items_and_unread_count();
-	event.preventDefault();
-    });
-
-}
-
 var put_expand_note_button = function() {
     $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>');
 
-    $("div.guess-item[unique_id^=1015] div.source").delegate("span.expand-note-btn a", "click", function() {
-	var guess_item = $(this).parent().parent().parent().parent().parent();
-	var guess_item_note_id = $(guess_item).attr("unique_id").split(":")[1];
+    $("div.guess-item[unique_id^=1015] div.source span.expand-note-btn a").click(function() {
+	var guess_item = $(this).parent().parent().parent().parent();
+	var guess_item_note_id = $(guess_item[0]).attr("unique_id").split(":")[1];
 
 	GM_xmlhttpRequest({
 	    method: "GET",
@@ -193,28 +175,12 @@ var put_expand_note_button = function() {
     
 }
 
-
-var load_more_guess = function() {
-    $("div.guess-more a").click();
-}
-
-var make_like_button_dismiss_guess_item = function() {
-$("div.guess-item div.ft:not(:has(span.dislike-btn)) span.fav-btn['data-tid']").delegate("a", "click", function() {
-    var guess_item_dismiss = function(){
-	$(this).parent().parent().parent().remove();
-    }
-    setTimeout(guess_item_dismiss, refresh_interval * 5);
-});
-}
-
 var dislike_refresh_all = function(){
 remove_boutique();
 remove_site_hot_content();
 remove_already_liked_content();
 refresh_guess_items_and_unread_count();
-//make_like_button_dismiss_guess_item();
 put_dislike_button();
-//put_dismiss_buttion();
 put_expand_note_button();
 }
 
