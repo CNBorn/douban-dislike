@@ -38,11 +38,10 @@ var remove_site_hot_content = function(){
 }
 
 var remove_already_liked_content = function(){
-    $("div.guess-item div.ft span.fav-btn a.selected").parent().parent().parent().remove();
-    //book, movie, music
-    $("div.guess-item div.ft span.subject-btn a.selected").parent().parent().parent().remove();
-    //online
-    $("div.guess-item div.ft span.online-event-btn a.selected").parent().parent().parent().remove();
+    $("div.guess-item:has(div.ft span.fav-btn a.selected)").remove();
+    $("div.guess-item:has(div.ft span.subject-btn a.selected)").remove();
+    $("div.guess-item:has(div.ft span.online-event-btn a.selected)").remove();
+    return $("div.guess-item:has(div.ft span.event-btn a.selected)").remove();
 }
 
 var refresh_guess_items_and_unread_count = function(){
