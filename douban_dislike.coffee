@@ -1,5 +1,27 @@
 refresh_interval = 850
 
+tweak_for_new_nav = ->
+  $("#db-global-nav").css
+        "width": "960px"
+        "margin": "0 auto"
+        "background-color": "white"
+        
+  $(".global-nav a:active, .global-nav a:link, .global-nav a:visited").css
+        "color": "#072"
+
+  $('.global-nav a').hover () ->  
+
+          $(this).css
+            'color': "white"
+            'background-color': '#072'
+
+        , () ->
+
+          $(this).css
+            'background-color': ''
+            'color': "#072"
+
+        
 remove_boutique = ->
   $("div.boutique").remove()
   $("div#dale_update_top_right").remove()
@@ -92,6 +114,7 @@ put_expand_note_button = ->
     event.preventDefault()
 
 dislike_refresh_all = ->
+  tweak_for_new_nav()
   remove_boutique()
   remove_site_hot_content()
   remove_already_liked_content()
