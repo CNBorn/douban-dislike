@@ -1,7 +1,29 @@
 (function() {
-  var dislike_refresh_all, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_unread_count, remove_already_liked_content, remove_boutique, remove_site_hot_content;
+  var dislike_refresh_all, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_unread_count, remove_already_liked_content, remove_boutique, remove_site_hot_content, tweak_for_new_nav;
 
   refresh_interval = 850;
+
+  tweak_for_new_nav = function() {
+    $("#db-global-nav").css({
+      "width": "960px",
+      "margin": "0 auto",
+      "background-color": "white"
+    });
+    $(".global-nav a:active, .global-nav a:link, .global-nav a:visited").css({
+      "color": "#072"
+    });
+    return $('.global-nav a').hover(function() {
+      return $(this).css({
+        'color': "white",
+        'background-color': '#072'
+      });
+    }, function() {
+      return $(this).css({
+        'background-color': '',
+        'color': "#072"
+      });
+    });
+  };
 
   remove_boutique = function() {
     $("div.boutique").remove();
@@ -112,6 +134,7 @@
   };
 
   dislike_refresh_all = function() {
+    tweak_for_new_nav();
     remove_boutique();
     remove_site_hot_content();
     remove_already_liked_content();
