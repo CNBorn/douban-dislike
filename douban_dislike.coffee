@@ -44,9 +44,7 @@ refresh_unread_count = ->
 refresh_guess_items_and_unread_count = ->
   guess_item = $("div.guess-item:first")
   get_user_id = ->
-    user_id = guess_item.attr("id").split(":")[0]
-    if not isFinite(user_id)
-      user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
+    user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
     localStorage.douban_dislike_user_id = user_id
     return user_id
 
@@ -71,10 +69,7 @@ put_dislike_button = ->
   $("div.guess-item").delegate "div.ft span.dislike-btn a", "click", (evt) ->
     guess_item = $(this).parent().parent().parent()
     get_user_id = ->
-      user_id = guess_item.attr("id").split(":")[0]
-      if not isFinite(user_id)
-        user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
-      return user_id
+      user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
     get_kind_and_id = ->
       guess_item.attr("unique_id").split(":")
     [kind, id] = get_kind_and_id()
