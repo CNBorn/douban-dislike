@@ -23,7 +23,6 @@ tweak_for_new_nav = ->
 
         
 remove_boutique = ->
-  $("div.boutique").remove()
   $("div#dale_update_top_right").remove()
   $("div#dale_homepage_login_top_right").remove()
 
@@ -46,7 +45,10 @@ refresh_guess_items_and_unread_count = ->
   guess_item = $("div.guess-item:first")
   get_user_id = ->
     user_id = guess_item.attr("id").split(":")[0]
+    if not isFinite(user_id)
+      user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
     localStorage.douban_dislike_user_id = user_id
+    return user_id
 
   user_id = get_user_id()
   if not user_id then return false
@@ -69,7 +71,10 @@ put_dislike_button = ->
   $("div.guess-item").delegate "div.ft span.dislike-btn a", "click", (evt) ->
     guess_item = $(this).parent().parent().parent()
     get_user_id = ->
-      guess_item.attr("id").split(":")[0]
+      user_id = guess_item.attr("id").split(":")[0]
+      if not isFinite(user_id)
+        user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0]
+      return user_id
     get_kind_and_id = ->
       guess_item.attr("unique_id").split(":")
     [kind, id] = get_kind_and_id()
@@ -116,7 +121,7 @@ put_expand_note_button = ->
 dislike_refresh_all = ->
   tweak_for_new_nav()
   remove_boutique()
-  remove_site_hot_content()
+  #remove_site_hot_content()
   remove_already_liked_content()
   refresh_guess_items_and_unread_count()
   put_dislike_button()
