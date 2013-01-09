@@ -1,6 +1,6 @@
 {
   "name": "豆瓣首页进化",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "manifest_version": 2,
   "description": "过滤并记录豆瓣首页你不喜欢的条目信息",  
   "content_scripts": [
