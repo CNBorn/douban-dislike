@@ -3,7 +3,7 @@
 // @namespace	        http://cnborn.net/blog/2012/10/douban-dislike_chrome_extension/
 // @description	        Douban Front Page Enhanced.
 // @require             http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
-// @include		http://www.douban.com/
+// @include		http://*.douban.com/*
 // ==/UserScript==
 
 
@@ -26,6 +26,29 @@ function douban_dislike($) {
 //Copy code begins
 
 var refresh_interval = 850;
+
+var tweak_for_new_nav = function() {
+    $("#db-global-nav").css({
+      "width": "960px",
+      "margin": "0 auto",
+      "background-color": "white"
+    });
+    $(".global-nav a:active, .global-nav a:link, .global-nav a:visited").css({
+      "color": "#072"
+    });
+    return $('.global-nav a').hover(function() {
+      return $(this).css({
+        'color': "white",
+        'background-color': '#072'
+      });
+    }, function() {
+      return $(this).css({
+        'background-color': '',
+        'color': "#072"
+      });
+    });
+}
+
 
 var remove_boutique = function(){
     $("div.boutique").remove();
@@ -176,6 +199,7 @@ var put_expand_note_button = function() {
 }
 
 var dislike_refresh_all = function(){
+tweak_for_new_nav();
 remove_boutique();
 remove_site_hot_content();
 remove_already_liked_content();
