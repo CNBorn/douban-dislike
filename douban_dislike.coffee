@@ -1,8 +1,4 @@
 refresh_interval = 850
-        
-remove_boutique = ->
-  $("div#dale_update_top_right").remove()
-  $("div#dale_homepage_login_top_right").remove()
 
 hide_site_hot_content = ->
   $("div.guess-item:has(div.source:contains('热点'))").hide()
@@ -108,7 +104,6 @@ put_expand_note_button = ->
     event.preventDefault()
 
 dislike_init = ->
-  remove_boutique()
   add_site_hot_content_options()
 
 dislike_refresh_all = ->

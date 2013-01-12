@@ -43,3 +43,6 @@
 	margin: 0 auto!important;
 }
 
+div#dale_update_top_right, div#dale_homepage_login_top_right {
+    display:none!important;
+}
