@@ -7,17 +7,17 @@ show_site_hot_content = ->
   $("div.guess-item:has(div.source:contains('热点'))").show()
 
 add_site_hot_content_options = ->
-  is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') or false
+  is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') == "true"
   $("div.guess3-setting div.hd:not(:has(input#show_site_hot_content))").prepend("<input id=show_site_hot_content type=checkbox><label for=show_site_hot_content>显示全站热点</label>")
   $("input#show_site_hot_content").attr("checked", is_show_hot_site_content)
   $("input#show_site_hot_content").click ->
-    shsc_value = $(this).attr("checked")
+    shsc_value = $(this).attr("checked") == "checked"
     localStorage.setItem('option_show_site_hot_content', shsc_value)
-    if shsc_value then show_site_hot_content() else hide_site_hot_content()
+    if shsc_value == true then show_site_hot_content() else hide_site_hot_content()
 
 refresh_site_hot_content = ->
-  shsc_value = $("input#show_site_hot_content").attr("checked")
-  if shsc_value then show_site_hot_content() else hide_site_hot_content()
+  shsc_value = $("input#show_site_hot_content").attr("checked") == "checked"
+  if shsc_value == true then show_site_hot_content() else hide_site_hot_content()
 
 remove_already_liked_content = ->
   $("div.guess-item:has(div.ft span.fav-btn a.selected)").remove()
