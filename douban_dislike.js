@@ -1,12 +1,7 @@
 (function() {
-  var add_site_hot_content_options, dislike_init, dislike_refresh_all, hide_site_hot_content, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_site_hot_content, refresh_unread_count, remove_already_liked_content, remove_boutique, show_site_hot_content;
+  var add_site_hot_content_options, dislike_init, dislike_refresh_all, hide_site_hot_content, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_site_hot_content, refresh_unread_count, remove_already_liked_content, show_site_hot_content;
 
   refresh_interval = 850;
-
-  remove_boutique = function() {
-    $("div#dale_update_top_right").remove();
-    return $("div#dale_homepage_login_top_right").remove();
-  };
 
   hide_site_hot_content = function() {
     return $("div.guess-item:has(div.source:contains('热点'))").hide();
@@ -18,12 +13,12 @@
 
   add_site_hot_content_options = function() {
     var is_show_hot_site_content;
-    is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') || false;
+    is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') === "true";
     $("div.guess3-setting div.hd:not(:has(input#show_site_hot_content))").prepend("<input id=show_site_hot_content type=checkbox><label for=show_site_hot_content>显示全站热点</label>");
     $("input#show_site_hot_content").attr("checked", is_show_hot_site_content);
     return $("input#show_site_hot_content").click(function() {
       var shsc_value;
-      shsc_value = $(this).attr("checked");
+      shsc_value = $(this).attr("checked") === "checked";
       localStorage.setItem('option_show_site_hot_content', shsc_value);
       if (shsc_value) {
         return show_site_hot_content();
@@ -35,7 +30,7 @@
 
   refresh_site_hot_content = function() {
     var shsc_value;
-    shsc_value = $("input#show_site_hot_content").attr("checked");
+    shsc_value = $("input#show_site_hot_content").attr("checked") === "checked";
     if (shsc_value) {
       return show_site_hot_content();
     } else {
@@ -144,7 +139,6 @@
   };
 
   dislike_init = function() {
-    remove_boutique();
     return add_site_hot_content_options();
   };
 
