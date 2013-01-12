@@ -2,7 +2,7 @@
   "name": "豆瓣首页进化",
   "version": "0.1.8",
   "manifest_version": 2,
-  "description": "过滤并记录豆瓣首页你不喜欢的条目信息",
+  "description": "过滤并记录豆瓣首页你不喜欢的条目信息",  
   "content_scripts": [
     {
       "matches": ["http://www.douban.com/"],
@@ -24,7 +24,13 @@
       "run_at": "document_end",
       "js": ["jquery.min.js", "douban_clear.js"]
     }],
+  "background": {
+      "persistent": true,
+      "scripts": [ "bg.js" ]
+   },
+  "permissions": [ "tabs", "http://douban.com/*", "http://*.douban.com/*" ],
   "icons": {
     "128": "appicon_128.png"
-  }
+  },
+  "web_accessible_resources": [ "old-douban.css" ]
 }
