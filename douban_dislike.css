@@ -1,0 +1,13 @@
+input#show_site_hot_content {
+    right:200px;
+    position:absolute;
+    top:-24px;
+    line-height:1.2;
+    text-decoration:none;
+}
+
+label[for=show_site_hot_content] {
+    position:absolute;
+    top:-32px;
+    right:135px;
+}
