@@ -1,29 +1,7 @@
 (function() {
-  var add_site_hot_content_options, dislike_refresh_all, hide_site_hot_content, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_site_hot_content, refresh_unread_count, remove_already_liked_content, remove_boutique, show_site_hot_content, tweak_for_new_nav;
+  var add_site_hot_content_options, dislike_init, dislike_refresh_all, hide_site_hot_content, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_site_hot_content, refresh_unread_count, remove_already_liked_content, remove_boutique, show_site_hot_content;
 
   refresh_interval = 850;
-
-  tweak_for_new_nav = function() {
-    $("#db-global-nav").css({
-      "width": "960px",
-      "margin": "0 auto",
-      "background-color": "white"
-    });
-    $(".global-nav a:active, .global-nav a:link, .global-nav a:visited").css({
-      "color": "#072"
-    });
-    return $('.global-nav a').hover(function() {
-      return $(this).css({
-        'color': "white",
-        'background-color': '#072'
-      });
-    }, function() {
-      return $(this).css({
-        'background-color': '',
-        'color': "#072"
-      });
-    });
-  };
 
   remove_boutique = function() {
     $("div#dale_update_top_right").remove();
@@ -41,9 +19,9 @@
   add_site_hot_content_options = function() {
     var is_show_hot_site_content;
     is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') || false;
-    $("div.guess3-setting div.hd:not(:has(input#shsc))").prepend("<input id=shsc type=checkbox style='right:200px;position:absolute;top:-24px;line-height:1.2;text-decoration:none'><label for=shsc style='position:absolute;top:-32px;right:135px'>显示全站热点</label>");
-    $("input#shsc").attr("checked", is_show_hot_site_content);
-    return $("input#shsc").click(function() {
+    $("div.guess3-setting div.hd:not(:has(input#show_site_hot_content))").prepend("<input id=show_site_hot_content type=checkbox><label for=show_site_hot_content>显示全站热点</label>");
+    $("input#show_site_hot_content").attr("checked", is_show_hot_site_content);
+    return $("input#show_site_hot_content").click(function() {
       var shsc_value;
       shsc_value = $(this).attr("checked");
       localStorage.setItem('option_show_site_hot_content', shsc_value);
@@ -57,7 +35,7 @@
 
   refresh_site_hot_content = function() {
     var shsc_value;
-    shsc_value = $("input#shsc").attr("checked");
+    shsc_value = $("input#show_site_hot_content").attr("checked");
     if (shsc_value) {
       return show_site_hot_content();
     } else {
@@ -165,16 +143,20 @@
     });
   };
 
-  dislike_refresh_all = function() {
-    tweak_for_new_nav();
+  dislike_init = function() {
     remove_boutique();
-    add_site_hot_content_options();
+    return add_site_hot_content_options();
+  };
+
+  dislike_refresh_all = function() {
     refresh_site_hot_content();
     remove_already_liked_content();
     refresh_guess_items_and_unread_count();
     put_dislike_button();
     return put_expand_note_button();
   };
+
+  dislike_init();
 
   dislike_refresh_all();
 
