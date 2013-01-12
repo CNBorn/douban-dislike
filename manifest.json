@@ -7,15 +7,23 @@
     {
       "matches": ["http://www.douban.com/"],
       "run_at": "document_end",
-      "js": ["jquery.min.js", "douban_dislike.js"]
+      "js": ["jquery.min.js", "douban_dislike.js"],
+      "css": ["old-douban.css"]
+    },
+    {
+      "matches": ["http://www.douban.com/update/*"],
+      "css": ["old-douban.css"]
+    },
+    {
+      "matches": ["http://www.douban.com/*"],
+      "css": ["old-douban.css"]
+    },
+    {
+      "matches": ["http://*.douban.com/*"],
+      "css": ["old-douban.css"]
     }],
-  "background": {
-      "persistent": true,
-      "scripts": [ "bg.js" ]
-   },
   "permissions": [ "tabs", "http://douban.com/*", "http://*.douban.com/*" ],
   "icons": {
     "128": "appicon_128.png"
-  },
-  "web_accessible_resources": [ "old-douban.css" ]
+  }
 }
