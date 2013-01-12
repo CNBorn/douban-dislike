@@ -1,6 +1,6 @@
 {
   "name": "豆瓣首页进化",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "manifest_version": 2,
   "description": "过滤并记录豆瓣首页你不喜欢的条目信息",  
   "content_scripts": [
@@ -8,21 +8,6 @@
       "matches": ["http://www.douban.com/"],
       "run_at": "document_end",
       "js": ["jquery.min.js", "douban_dislike.js"]
-    },
-    {
-      "matches": ["http://www.douban.com/update/*"],
-      "run_at": "document_end",
-      "js": ["jquery.min.js", "douban_clear.js"]
-    },
-    {
-      "matches": ["http://www.douban.com/*"],
-      "run_at": "document_end",
-      "js": ["jquery.min.js", "douban_clear.js"]
-    },
-    {
-      "matches": ["http://*.douban.com/*"],
-      "run_at": "document_end",
-      "js": ["jquery.min.js", "douban_clear.js"]
     }],
   "background": {
       "persistent": true,
