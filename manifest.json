@@ -7,16 +7,7 @@
     {
       "matches": ["http://www.douban.com/"],
       "run_at": "document_end",
-      "js": ["jquery.min.js", "douban_dislike.js"],
-      "css": ["old-douban.css", "douban_dislike.css"]
-    },
-    {
-      "matches": ["http://www.douban.com/update/*"],
-      "css": ["old-douban.css", "douban_dislike.css"]
-    },
-    {
-      "matches": ["http://www.douban.com/*"],
-      "css": ["old-douban.css", "douban_dislike.css"]
+      "js": ["jquery.min.js", "douban_dislike.js"]
     },
     {
       "matches": ["http://*.douban.com/*"],
