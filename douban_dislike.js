@@ -1,5 +1,5 @@
 (function() {
-  var dislike_refresh_all, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_unread_count, remove_already_liked_content, remove_boutique, remove_site_hot_content, tweak_for_new_nav;
+  var add_site_hot_content_options, dislike_refresh_all, hide_site_hot_content, put_dislike_button, put_expand_note_button, refresh_guess_items_and_unread_count, refresh_interval, refresh_site_hot_content, refresh_unread_count, remove_already_liked_content, remove_boutique, show_site_hot_content, tweak_for_new_nav;
 
   refresh_interval = 850;
 
@@ -26,13 +26,43 @@
   };
 
   remove_boutique = function() {
-    $("div.boutique").remove();
     $("div#dale_update_top_right").remove();
     return $("div#dale_homepage_login_top_right").remove();
   };
 
-  remove_site_hot_content = function() {
-    return $("div.guess-item:has(div.source:contains('热点'))").remove();
+  hide_site_hot_content = function() {
+    return $("div.guess-item:has(div.source:contains('热点'))").hide();
+  };
+
+  show_site_hot_content = function() {
+    return $("div.guess-item:has(div.source:contains('热点'))").show();
+  };
+
+  add_site_hot_content_options = function() {
+    var is_show_hot_site_content;
+    is_show_hot_site_content = localStorage.getItem('option_show_site_hot_content') || false;
+    $("div.guess3-setting div.hd:not(:has(input#shsc))").prepend("<input id=shsc type=checkbox style='right:200px;position:absolute;top:-24px;line-height:1.2;text-decoration:none'><label for=shsc style='position:absolute;top:-32px;right:135px'>显示全站热点</label>");
+    $("input#shsc").attr("checked", is_show_hot_site_content);
+    return $("input#shsc").click(function() {
+      var shsc_value;
+      shsc_value = $(this).attr("checked");
+      localStorage.setItem('option_show_site_hot_content', shsc_value);
+      if (shsc_value) {
+        return show_site_hot_content();
+      } else {
+        return hide_site_hot_content();
+      }
+    });
+  };
+
+  refresh_site_hot_content = function() {
+    var shsc_value;
+    shsc_value = $("input#shsc").attr("checked");
+    if (shsc_value) {
+      return show_site_hot_content();
+    } else {
+      return hide_site_hot_content();
+    }
   };
 
   remove_already_liked_content = function() {
@@ -55,8 +85,9 @@
     guess_item = $("div.guess-item:first");
     get_user_id = function() {
       var user_id;
-      user_id = guess_item.attr("id").split(":")[0];
-      return localStorage.douban_dislike_user_id = user_id;
+      user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0];
+      localStorage.douban_dislike_user_id = user_id;
+      return user_id;
     };
     user_id = get_user_id();
     if (!user_id) return false;
@@ -84,7 +115,8 @@
         _this = this;
       guess_item = $(this).parent().parent().parent();
       get_user_id = function() {
-        return guess_item.attr("id").split(":")[0];
+        var user_id;
+        return user_id = $("div.guess-item[id*=':']:not([id^='other']):first").attr("id").split(":")[0];
       };
       get_kind_and_id = function() {
         return guess_item.attr("unique_id").split(":");
@@ -136,7 +168,8 @@
   dislike_refresh_all = function() {
     tweak_for_new_nav();
     remove_boutique();
-    remove_site_hot_content();
+    add_site_hot_content_options();
+    refresh_site_hot_content();
     remove_already_liked_content();
     refresh_guess_items_and_unread_count();
     put_dislike_button();
