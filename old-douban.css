@@ -33,16 +33,10 @@
 .nav-search{
 	padding: 10px 0 10px 0!important;
 }
-/*#wrapper #content h1{display:none!important;}*/
-
-.notify-mod{
-	display:none!important;
-}
 .global-nav {
 	width: 960px!important;
 	margin: 0 auto!important;
 }
-
 div#dale_update_top_right, div#dale_homepage_login_top_right {
     display:none!important;
 }
