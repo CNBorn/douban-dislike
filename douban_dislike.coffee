@@ -85,7 +85,7 @@ put_dislike_button = ->
 put_expand_note_button = ->
   $("div.guess-item[unique_id^=1015] div.source:not(:has(span.expand-note-btn))").append('<span class="usr-btn expand-note-btn"><a href>展开</a></span>')
 
-  $("div.guess-item[unique_id^=1015] div.source span.expand-note-btn a").click ->
+  $("div.guess-item[unique_id^=1015] div.source span.expand-note-btn a").unbind("click").click ->
     guess_item = $(this).parent().parent().parent().parent()
     [guess_item_note_kind, guess_item_note_id] = $(guess_item[0]).attr("unique_id").split(":")
 
@@ -97,6 +97,7 @@ put_expand_note_button = ->
       }
     ).done (received_html) ->
       note_context = $("div.note:last", received_html)
+      if note_context.length == 0 then note_context = $("div.note-content:last", received_html)
       $("div.content div.desc", guess_item).html(note_context)
       $("div.source span.loading", guess_item).remove()
 
