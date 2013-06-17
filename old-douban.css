@@ -22,10 +22,13 @@
 	background-position: 0 10px;
 }
 #db-nav-sns .nav-primary {
-	padding-top: 0px!important;
+    padding: 0px!important;
 }
-.nav .nav-primary {
-	padding: 0!important;
+#db-nav-commodity .nav-primary {
+    padding: 10px 0px 5px!important; 
+}
+#db-nav-commodity .nav-primary .nav-enteracne {
+    top: 2px;
 }
 .nav-secondary ul {
 	margin: 0!important;
